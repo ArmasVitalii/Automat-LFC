@@ -1,3 +1,15 @@
+/****
+Alphabet - set
+Make States be strings to display equivalance
+Refactor in classes
+
+Make 2nd class AFD? so AFN -> AFN
+
+Make functions for |, * , . and char
+
+
+***********************************************/
+
 #include <iostream>
 #include <vector>
 #include <Stack>
