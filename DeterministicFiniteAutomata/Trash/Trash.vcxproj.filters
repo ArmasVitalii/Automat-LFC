@@ -18,5 +18,25 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NondeterministicFiniteAutomaton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateDFA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NondeterministicFiniteAutomaton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateDFA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

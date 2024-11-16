@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f4dc54cb-5ee5-41e1-bba2-f218a5b97cfd}</ProjectGuid>
-    <RootNamespace>DeterministicFiniteAutomata</RootNamespace>
+    <ProjectGuid>{1bf807d1-c851-4555-89ab-e7f71ac61219}</ProjectGuid>
+    <RootNamespace>Trash</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Automatas</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,7 +128,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CreateDFA.cpp" />
+    <ClCompile Include="NondeterministicFiniteAutomaton.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transition.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CreateDFA.h" />
+    <ClInclude Include="NondeterministicFiniteAutomaton.h" />
+    <ClInclude Include="Transition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

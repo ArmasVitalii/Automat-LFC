@@ -1,0 +1,40 @@
+#pragma once
+#include "Transition.h"
+#include <set>
+#include <string>
+#include <vector>
+class NondeterministicFiniteAutomaton
+{
+private:
+	std::set<std::string>			m_states;
+	std::set<char>					m_alphabet;
+	std::vector<Transition>			m_transitions;
+	std::string						m_initialState;
+	std::string						m_finalState;
+public:
+	void							assignStates(const std::set<std::string>& states);
+	void							assignAlphabet(const std::set<char>& alphabet);
+	void							assignTransition(const std::vector<Transition>& transitions);
+	void							assignInitial(const std::string& initial);
+	void							assignFinal(const std::string & final);
+
+	const std::set<std::string>&	getStates() const;
+	const std::set<char>			getAlphabet() const;
+	const std::vector<Transition>&	getTransitions() const;
+	const std::string&				getInitialState() const;
+	const std::string&				getFinalState() const;
+
+
+
+	void							addState(const std::string& state);
+	void							addTransition(const Transition& transition);
+
+	NondeterministicFiniteAutomaton(
+		const std::set<std::string>&		states,
+		const std::set<char>&				alphabet,
+		const std::vector<Transition>&		transitions,
+		const std::string&					initialState,
+		const std::string&					finalState
+	);
+};
+
