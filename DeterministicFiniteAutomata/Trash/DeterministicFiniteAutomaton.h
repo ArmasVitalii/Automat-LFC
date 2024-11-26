@@ -1,16 +1,18 @@
 #pragma once
 #include "Transition.h"
 #include <set>
+#include <iostream>
 #include <string>
 #include <vector>
-class NondeterministicFiniteAutomaton
+class DeterministicFiniteAutomaton
 {
 private:
+	char							lambda = '~';
 	std::set<std::string>			m_states;
 	std::set<char>					m_alphabet;
 	std::vector<Transition>			m_transitions;
 	std::string						m_initialState;
-	std::string						m_finalState;
+	std::vector<std::string>		m_finalState;
 public:
 	void							assignStates(const std::set<std::string>& states);
 	void							assignAlphabet(const std::set<char>& alphabet);
@@ -28,13 +30,34 @@ public:
 
 	void							addState(const std::string& state);
 	void							addTransition(const Transition& transition);
+	void							extendStates(const std::set<std::string>& newStates);
 
-	NondeterministicFiniteAutomaton(
+
+	void							printAutomaton() const;
+	friend std::ostream&			operator<<(std::ostream& os, DeterministicFiniteAutomaton automaton);
+	bool							verifyAutomaton() const;
+	bool							checkWord(const std::string& stringToCheck) const;
+
+
+
+
+	DeterministicFiniteAutomaton() = default;
+
+	DeterministicFiniteAutomaton(
 		const std::set<std::string>&		states,
 		const std::set<char>&				alphabet,
 		const std::vector<Transition>&		transitions,
 		const std::string&					initialState,
 		const std::string&					finalState
 	);
+
+private:
+
+	bool							checkStates() const;
+	bool							checkAlphabet() const;
+	bool							checkInitialState() const;
+	bool							checkStatesAndAlphabet() const;
+	bool							checkIfIsDeterministic() const;
+	bool							checkTransitions() const;
 };
 

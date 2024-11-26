@@ -99,8 +99,8 @@ void CreateNFA::caseCharacter(char character)
 
     Transition trans(initial, character, final);
 
-    automatonStack.push(
-        NondeterministicFiniteAutomaton(
+    m_automatonStack.push(
+        DeterministicFiniteAutomaton(
             { initial, final }, // States
             { character },      // Alphabet
             { trans },          // Transitions
@@ -114,15 +114,16 @@ void CreateNFA::caseCharacter(char character)
 
 void CreateNFA::caseConcatenation()
 {
-    NondeterministicFiniteAutomaton b = automatonStack.top();
-    automatonStack.pop();
-    NondeterministicFiniteAutomaton a = automatonStack.top();
-    automatonStack.pop();
+    DeterministicFiniteAutomaton b = m_automatonStack.top();
+    m_automatonStack.pop();
+    DeterministicFiniteAutomaton a = m_automatonStack.top();
+    m_automatonStack.pop();
 
     std::set<std::string> states = concatenateStates(a.getStates(), b.getStates());
     std::set<char> alphabet = concatenateAlphabets(a.getAlphabet(), b.getAlphabet());
 
-    std::string collectiveState = '(' + a.getFinalState() + '=' + b.getInitialState() +')';
+    m_saveConcatenatedStates.push_back({ a.getFinalState(),b.getInitialState() });
+    std::string collectiveState = '(' + a.getFinalState() + '=' + b.getInitialState() + ')';
 
     std::vector<Transition> transitions;
     for (Transition trans : a.getTransitions())
@@ -142,15 +143,15 @@ void CreateNFA::caseConcatenation()
         transitions.push_back(trans);
     }
 
-    automatonStack.push(NondeterministicFiniteAutomaton(states, alphabet, transitions, a.getInitialState(), b.getFinalState()));
+    m_automatonStack.push(DeterministicFiniteAutomaton(states, alphabet, transitions, a.getInitialState(), b.getFinalState()));
 }
 
 void CreateNFA::caseAlternate()
 {
-    NondeterministicFiniteAutomaton b = automatonStack.top();
-    automatonStack.pop();
-    NondeterministicFiniteAutomaton a = automatonStack.top();
-    automatonStack.pop();
+    DeterministicFiniteAutomaton b = m_automatonStack.top();
+    m_automatonStack.pop();
+    DeterministicFiniteAutomaton a = m_automatonStack.top();
+    m_automatonStack.pop();
 
     std::set<std::string> states = concatenateStates(a.getStates(), b.getStates());
     states.insert(std::to_string(m_contor));
@@ -182,7 +183,7 @@ void CreateNFA::caseAlternate()
     /*4*/trans.setInitialState(b.getFinalState());
     transitions.push_back(trans);
 
-    automatonStack.push(NondeterministicFiniteAutomaton(states, alphabet, transitions,
+    m_automatonStack.push(DeterministicFiniteAutomaton(states, alphabet, transitions,
         std::to_string(m_contor), std::to_string(m_contor + 1)));
 
     m_contor += 2;
@@ -190,8 +191,8 @@ void CreateNFA::caseAlternate()
 
 void CreateNFA::caseKleeneStar()
 {
-    NondeterministicFiniteAutomaton a = automatonStack.top();
-    automatonStack.pop();
+    DeterministicFiniteAutomaton a = m_automatonStack.top();
+    m_automatonStack.pop();
 
     std::set<std::string> states{ a.getStates() };
     states.insert(std::to_string(m_contor));
@@ -211,36 +212,13 @@ void CreateNFA::caseKleeneStar()
     /*4*/trans.setFinalState(a.getInitialState());
     transitions.push_back(trans);
 
-    automatonStack.push(NondeterministicFiniteAutomaton(states, a.getAlphabet(), transitions,
+    m_automatonStack.push(DeterministicFiniteAutomaton(states, a.getAlphabet(), transitions,
         std::to_string(m_contor), std::to_string(m_contor + 1)));
 
     m_contor += 2;
 }
 
-void CreateNFA::printAutomata() const
-{
-    NondeterministicFiniteAutomaton a = automatonStack.top();
-
-    std::cout << "States: ";
-    for (auto x : a.getStates())
-    {
-        std::cout << x << " ";
-    }
-    std::cout << "\nAlphabet: ";
-    for (auto x : a.getAlphabet())
-    {
-        std::cout << x << " ";
-    }
-    std::cout << "\nTransitions: \n";
-    for (auto x : a.getTransitions())
-    {
-        std::cout << "(" << x.getInitialState() << "," << x.getSimbol() << ") = " << x.getFinalState() << "\n";
-    }
-    std::cout << "Initial State: " << a.getInitialState();
-    std::cout << "\nFinal State: " << a.getFinalState();
-}
-
-void CreateNFA::start(const std::string& regularExpression)
+DeterministicFiniteAutomaton CreateNFA::start(const std::string& regularExpression)
 {
     std::string expression = toPolish(addConcatenationOperator(regularExpression));
     std::cout << expression << "\n\n";
@@ -263,5 +241,7 @@ void CreateNFA::start(const std::string& regularExpression)
             caseKleeneStar();
         }
     }
-    printAutomata();
+    
+    
+    return m_automatonStack.top();
 }

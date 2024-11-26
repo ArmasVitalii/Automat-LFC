@@ -105,6 +105,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,13 +132,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreateDFA.cpp" />
-    <ClCompile Include="NondeterministicFiniteAutomaton.cpp" />
+    <ClCompile Include="DeterministicFiniteAutomaton.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transformer.cpp" />
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateDFA.h" />
-    <ClInclude Include="NondeterministicFiniteAutomaton.h" />
+    <ClInclude Include="DeterministicFiniteAutomaton.h" />
+    <ClInclude Include="Transformer.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
