@@ -22,7 +22,7 @@ void DeterministicFiniteAutomaton::assignInitial(const std::string& initial)
 
 void DeterministicFiniteAutomaton::assignFinal(const std::string & final)
 {
-	m_finalState.push_back(final);
+	m_finalStates.push_back(final);
 }
 
 const std::set<std::string>& DeterministicFiniteAutomaton::getStates() const
@@ -47,7 +47,7 @@ const std::string& DeterministicFiniteAutomaton::getInitialState() const
 
 const std::string& DeterministicFiniteAutomaton::getFinalState() const
 {
-	return m_finalState.front();
+	return m_finalStates.front();
 }
 
 void DeterministicFiniteAutomaton::addState(const std::string& state)
@@ -69,7 +69,6 @@ bool DeterministicFiniteAutomaton::checkInitialState() const
 {
 	return std::find(m_states.begin(), m_states.end(), m_initialState) != m_states.end();
 }
-
 
 bool DeterministicFiniteAutomaton::checkStatesAndAlphabet() const
 {
@@ -115,22 +114,26 @@ bool DeterministicFiniteAutomaton::checkAlphabet() const
 void DeterministicFiniteAutomaton::printAutomaton() const
 {
 	std::cout << "States: ";
-	for (auto x : m_states)
+	for (const auto& x : m_states)
 	{
 		std::cout << x << " ";
 	}
 	std::cout << "\nAlphabet: ";
-	for (auto x : m_alphabet)
+	for (const auto& x : m_alphabet)
 	{
 		std::cout << x << " ";
 	}
 	std::cout << "\nTransitions: \n";
-	for (auto x : m_transitions)
+	for (const auto& x : m_transitions)
 	{
 		std::cout << "(" << x.getInitialState() << "," << x.getSimbol() << ") = " << x.getFinalState() << "\n";
 	}
 	std::cout << "Initial State: " << m_initialState;
-	std::cout << "\nFinal State: " << *m_finalState.begin();
+	std::cout << "\nFinal States: ";
+	for (const auto& x : m_finalStates)
+	{
+		std::cout << x << " ";
+	}
 
 	std::cout << '\n';
 }
@@ -199,13 +202,11 @@ bool DeterministicFiniteAutomaton::checkWord(const std::string& stringToCheck) c
 			return false;
 	}
 
-	if (currentState == m_finalState[0])
+	if (std::find(m_finalStates.begin(),m_finalStates.end(),currentState) != m_finalStates.end())
 		return true;
 
 	return false;
 }
-
-
 
 DeterministicFiniteAutomaton::DeterministicFiniteAutomaton(const std::set<std::string>& states, const std::set<char>& alphabet, const std::vector<Transition>& transitions, const std::string& initialState, const std::string& finalState)
 {
@@ -218,6 +219,28 @@ DeterministicFiniteAutomaton::DeterministicFiniteAutomaton(const std::set<std::s
 
 std::ostream& operator<<(std::ostream& os, DeterministicFiniteAutomaton automaton)
 {
-	automaton.printAutomaton();
+	os << "States: ";
+	for (const auto& x : automaton.m_states)
+	{
+		os << x << " ";
+	}
+	os << "\nAlphabet: ";
+	for (const auto& x : automaton.m_alphabet)
+	{
+		os << x << " ";
+	}
+	os << "\nTransitions: \n";
+	for (const auto& x : automaton.m_transitions)
+	{
+		os << "(" << x.getInitialState() << "," << x.getSimbol() << ") = " << x.getFinalState() << "\n";
+	}
+	os << "Initial State: " << automaton.m_initialState;
+	os << "\nFinal States: ";
+	for (const auto& x : automaton.m_finalStates)
+	{
+		os << x << " ";
+	}
+
+	os << '\n';
 	return os;
 }

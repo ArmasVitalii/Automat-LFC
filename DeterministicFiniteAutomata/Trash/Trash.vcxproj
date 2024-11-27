@@ -143,6 +143,12 @@
     <ClInclude Include="Transformer.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DFA.txt" />
+    <Text Include="NFA.txt" />
+    <Text Include="TransitionToDFA.txt" />
+    <Text Include="TextIntrare.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

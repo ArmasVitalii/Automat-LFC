@@ -1,0 +1,15 @@
+States: 0 1 2 3 4 5 6 
+Alphabet: a b c 
+Transitions: 
+(0,a) = 1
+(1,b) = 2
+(2,c) = 3
+(3,a) = 4
+(3,b) = 5
+(4,a) = 6
+(5,a) = 4
+(5,b) = 5
+(6,a) = 4
+(6,b) = 5
+Initial State: 0
+Final States: 3 5 6 

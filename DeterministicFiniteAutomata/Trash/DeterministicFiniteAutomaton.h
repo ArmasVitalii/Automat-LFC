@@ -12,7 +12,7 @@ private:
 	std::set<char>					m_alphabet;
 	std::vector<Transition>			m_transitions;
 	std::string						m_initialState;
-	std::vector<std::string>		m_finalState;
+	std::vector<std::string>		m_finalStates;
 public:
 	void							assignStates(const std::set<std::string>& states);
 	void							assignAlphabet(const std::set<char>& alphabet);

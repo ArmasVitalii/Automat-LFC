@@ -58,12 +58,11 @@ std::set<std::string> Transformer::computeFinalStates(const std::set<std::string
     return finalStates;
 }
 
-DeterministicFiniteAutomaton Transformer::transformToDFA()
+DeterministicFiniteAutomaton Transformer::transformToDFA(std::ostream& os)
 {
     DeterministicFiniteAutomaton dfa;
     dfa.assignAlphabet(m_nfa.getAlphabet());
     dfa.assignInitial("0");
-
 
     bool foundALambdaClose = true;
     std::vector<std::set<std::string>> lambdaClosedVector;
@@ -88,6 +87,12 @@ DeterministicFiniteAutomaton Transformer::transformToDFA()
                 {
                     lambdaClosedVector.push_back(lambdaClosedForFinalStates);
                     foundALambdaClose = true;
+
+
+                    if (lambdaClosedForFinalStates.find(m_nfa.getFinalState()) != lambdaClosedForFinalStates.end())
+                    {
+                        dfa.assignFinal(std::to_string(lambdaClosedVector.size() - 1));
+                    }
                 }
             }
         }
@@ -99,20 +104,23 @@ DeterministicFiniteAutomaton Transformer::transformToDFA()
     }
   
     dfa.assignTransition({});
-    dfa.assignFinal(std::to_string(lambdaClosedVector.size()-1));
 
-    std::cout << "\n\nTransition diagram for the DFA:" << std::endl;
 
-    std::cout << "   ";
+    /*PRINT STATEMENTS*/
+
+
+    os << "Transition diagram for the DFA:" << std::endl;
+
+    os << "   ";
     for (const auto& ch : m_nfa.getAlphabet())
     {
-        std::cout << "  " << ch << "  ";
+        os << "  " << ch << "  ";
     }
-    std::cout << std::endl;
+    os << std::endl;
 
     for (size_t i = 0; i < lambdaClosedVector.size(); i++)
     {
-        std::cout << i << ": ";
+        os << i << ": ";
 
         for (const auto& ch : m_nfa.getAlphabet())
         {
@@ -122,7 +130,7 @@ DeterministicFiniteAutomaton Transformer::transformToDFA()
 
             if (lambdaClosedForFinalStates.empty())
             {
-                std::cout << "  -  ";
+                os << "  -  ";
             }
             else
             {
@@ -131,7 +139,7 @@ DeterministicFiniteAutomaton Transformer::transformToDFA()
                 {
                     if (lambdaClosedVector[j] == lambdaClosedForFinalStates)
                     {
-                        std::cout << "  " << j << "  ";
+                        os << "  " << j << "  ";
                         dfa.addTransition({ std::to_string(i), ch, std::to_string(j)});
                         found = true;
                         break;
@@ -140,23 +148,23 @@ DeterministicFiniteAutomaton Transformer::transformToDFA()
 
                 if (!found)
                 {
-                    std::cout << "  -  ";
+                    os << "  -  ";
                 }
             }
         }
-        std::cout << std::endl;
+        os << std::endl;
     }
 
-    std::cout << '\n' << "Where the transitions are as follows:\n";
+    os << '\n' << "Where the transitions are as follows:\n";
 
     for (size_t i = 0; i < lambdaClosedVector.size(); i++)
     {
-        std::cout << i << ": { ";
+        os << i << ": { ";
         for (const auto& state : lambdaClosedVector[i])
         {
-            std::cout << state << " ";
+            os << state << " ";
         }
-        std::cout << "}" << std::endl;
+        os << "}" << std::endl;
     }
 
     return dfa;

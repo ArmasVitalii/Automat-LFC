@@ -35,6 +35,5 @@ private:
 
 public:
 	DeterministicFiniteAutomaton				start(const std::string& regularExpression);
-
 };
 
