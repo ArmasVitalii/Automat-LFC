@@ -146,8 +146,8 @@
   <ItemGroup>
     <Text Include="DFA.txt" />
     <Text Include="NFA.txt" />
-    <Text Include="TransitionToDFA.txt" />
     <Text Include="TextIntrare.txt" />
+    <Text Include="TransitionToDFA.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

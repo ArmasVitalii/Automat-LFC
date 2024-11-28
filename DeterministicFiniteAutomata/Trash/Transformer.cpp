@@ -70,6 +70,11 @@ DeterministicFiniteAutomaton Transformer::transformToDFA(std::ostream& os)
     std::set<std::string> lambdaClosed = generateLambdaClosed({ m_nfa.getInitialState() }, lambda);
     lambdaClosedVector.push_back(lambdaClosed);
 
+    if (lambdaClosed.find(m_nfa.getFinalState()) != lambdaClosed.end())
+    {
+        dfa.assignFinal("0");
+    }
+
     while (foundALambdaClose)
     {
         foundALambdaClose = false;

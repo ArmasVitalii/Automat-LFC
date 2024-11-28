@@ -221,6 +221,7 @@ void CreateNFA::caseKleeneStar()
 DeterministicFiniteAutomaton CreateNFA::start(const std::string& regularExpression)
 {
     std::string expression = toPolish(addConcatenationOperator(regularExpression));
+    
 
     for (const auto& ch : expression)
     {

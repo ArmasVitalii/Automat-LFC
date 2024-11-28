@@ -33,6 +33,19 @@ bool isValidRegex(const std::string& pattern)
 	}
 }
 
+std::string removeConcatenationOperator(const std::string& string)
+{
+	std::string solution;
+	for (const auto& x : string)
+	{
+		if (x != '.')
+		{
+			solution += x;
+		}
+	}
+	return solution;
+}
+
 
 int main()
 {
@@ -46,18 +59,19 @@ int main()
 		DeterministicFiniteAutomaton dfa = createDFAfrom(regularExpression);
 		do
 		{
-			std::cout << "\n1. Print Expression!\n";
+			std::cout << "1. Print Expression!\n";
 			std::cout << "2. Print Automaton!\n";
 			std::cout << "3. Check Word!\n\n";
 
 			std::cout << "Enter choice: ";
 			std::cin >> choice;
+			std::cout << "\n";
 
 			switch (choice)
 			{
 			case 1:
 			{
-				std::cout << regularExpression << '\n';
+				std::cout << removeConcatenationOperator(regularExpression) << '\n';
 				break;
 			}
 			case 2:
@@ -76,11 +90,11 @@ int main()
 				
 				if (dfa.checkWord(word) == true)
 				{
-					std::cout << "Word " << word << " verified!\n";
+					std::cout << "Word '" << word << "' verified!\n";
 				}
 				else
 				{
-					std::cout << "Word " << word << " not verified!\n";
+					std::cout << "Word '" << word << "' not verified!\n";
 				}
 				break;
 			}

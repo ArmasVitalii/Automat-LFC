@@ -184,6 +184,8 @@ bool DeterministicFiniteAutomaton::verifyAutomaton() const
 bool DeterministicFiniteAutomaton::checkWord(const std::string& stringToCheck) const
 {
 	std::string currentState = m_initialState;
+	if (stringToCheck == "~" && std::find(m_finalStates.begin(), m_finalStates.end(), currentState) != m_finalStates.end())
+		return true;
 
 	for (size_t i = 0; i < stringToCheck.size(); i++)
 	{
@@ -219,8 +221,13 @@ DeterministicFiniteAutomaton::DeterministicFiniteAutomaton(const std::set<std::s
 
 std::ostream& operator<<(std::ostream& os, DeterministicFiniteAutomaton automaton)
 {
+	std::set<int> tempStates;
 	os << "States: ";
 	for (const auto& x : automaton.m_states)
+	{
+		tempStates.insert(std::stoi(x));
+	}
+	for (const auto& x : tempStates)
 	{
 		os << x << " ";
 	}
